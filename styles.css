@@ -1,3 +1,29 @@
 :root {
     --background-color: rgb(251, 254, 221);
 }
+
+body {
+    height: 100vh; /* Make body full viewport height */
+    margin: 0;     /* Remove default margin */
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center;     /* Centers vertically */
+    
+    background-image: url("assets/background.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#timer {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center; /* Centers content vertically */
+    align-items: center;    /* Centers content horizontally */
+
+    /* background-image: url('assets/window2.png'); */
+    background-size: contain; /* or cover */
+    background-repeat: no-repeat;
+
+    width: 700px;
+    height: 600px;
+}
