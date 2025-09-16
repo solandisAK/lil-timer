@@ -1,9 +1,12 @@
+const timerDiv = document.getElementById("timer");
+const buttonsDiv = document.querySelector(".buttons");
 const setTimeBtn = document.getElementById("set_time");
 
-setTimeBtn.addEventListener("click", () => {
-    // Replace body content with new buttons
-    document.body.innerHTML = `
-        <h2>Select a Time</h2>
+setTimeBtn.addEventListener("click", showTimeOptions);
+
+function showTimeOptions() {
+    // Update buttons area to show time options
+    buttonsDiv.innerHTML = `
         <div class="time-options">
             <button class="time-option" data-time="10">10 min</button>
             <button class="time-option" data-time="5">5 min</button>
@@ -13,39 +16,32 @@ setTimeBtn.addEventListener("click", () => {
         </div>
     `;
 
-    const buttons = document.querySelectorAll(".time-option");
-    buttons.forEach(button => {
-        button.addEventListener("click", () => {
-            const selectedTime = button.getAttribute("data-time");
+    const timeButtons = buttonsDiv.querySelectorAll(".time-option");
+    timeButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const selectedTime = btn.getAttribute("data-time");
 
-            // Go back to main timer page with selected time
-            document.body.innerHTML = `
-                <div id="timer">
-                    <div id="time_left">${selectedTime}:00</div>
-                    <div id="time_label"> minutes </div>
-                </div>
-                <div class="buttons">
-                    <button id="set_time">set time</button>
-                    <button id="stop">stop</button>
-                    <button id="start">start</button>
-                </div>
+            // Update timer area
+            timerDiv.innerHTML = `
+                <div id="time_left">${selectedTime}:00</div>
+                <div id="time_label"> minutes </div>
             `;
 
-            // Reattach Set Time button
-            const newSetTimeBtn = document.getElementById("set_time");
-            newSetTimeBtn.addEventListener("click", setTimeHandler);
+            // Restore original buttons
+            buttonsDiv.innerHTML = `
+                <button id="set_time">set time</button>
+                <button id="stop">stop</button>
+                <button id="start">start</button>
+            `;
 
-            // Initialize timer with selected time
+            // Reattach set time handler
+            document.getElementById("set_time").addEventListener("click", showTimeOptions);
+
+            // Initialize timer
             setTimer(selectedTime, "time_left");
         });
     });
-});
-
-function setTimeHandler() {
-    setTimeBtn.click();
 }
-
-setTimeBtn.addEventListener("click", setTimeHandler);
 
 function setTimer(amt_time, btn_time_left) {
     const time_display = document.getElementById(btn_time_left);
@@ -59,7 +55,7 @@ function setTimer(amt_time, btn_time_left) {
     }
 
     function startTimer() {
-        if (timerId === null) {
+        if (!timerId) {
             timerId = setInterval(() => {
                 if (time_left <= 0) {
                     clearInterval(timerId);
@@ -78,12 +74,8 @@ function setTimer(amt_time, btn_time_left) {
         timerId = null;
     }
 
-    // Attach fresh listeners to new buttons
-    const start_btn = document.getElementById("start");
-    start_btn.addEventListener("click", startTimer);
+    document.getElementById("start").addEventListener("click", startTimer);
+    document.getElementById("stop").addEventListener("click", stopTimer);
 
-    const stop_btn = document.getElementById("stop");
-    stop_btn.addEventListener("click", stopTimer);
-
-    updateDisplay(); // show initial value
+    updateDisplay(); // show initial time
 }
