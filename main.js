@@ -24,7 +24,6 @@ function showTimeOptions() {
             // Update timer area
             timerDiv.innerHTML = `
                 <div id="time_left">${selectedTime}:00</div>
-                <div id="time_label"> minutes </div>
             `;
 
             // Restore original buttons
